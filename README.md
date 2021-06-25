@@ -1,6 +1,6 @@
 # FIRST OF ALL !!!!!
 
-You need to open react-store-api and run npm start to build the json server !!!!!
+You need to open react-store-api and run npm start to build the json server !!!!!\
 then follow the step below, you may see the products.
 
 # Getting Started with Create React App
