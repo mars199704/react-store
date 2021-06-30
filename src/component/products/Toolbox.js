@@ -1,9 +1,10 @@
 import React from 'react'
-
+// 用來獲取 history 參數的套件
+import { withRouter } from 'react-router-dom'
 class Toolbox extends React.Component {
 
   state = {
-    searchText: ''
+    searchText: '',
   }
 
   handleChange = e => {
@@ -20,6 +21,10 @@ class Toolbox extends React.Component {
       searchText : ''
     })
     this.props.search("")
+  }
+
+  goCart = () => {
+    this.props.history.push("/cart")
   }
 
   render() {
@@ -42,13 +47,13 @@ class Toolbox extends React.Component {
           </div>
         </div>
 
-        <div className="cart-box">
+        <div className="cart-box" onClick={this.goCart}>
           <i className="fas fa-shopping-cart"></i>
-          <span className="cart-number">(0)</span>
+          <span className="cart-number">({this.props.cartNumber})</span>
         </div>
       </div>
     )
   }
 }
 
-export default Toolbox
+export default withRouter(Toolbox)

@@ -9,6 +9,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import App from './component/App'
 import Login from './component/Login'
 import Notfound from './component/NotFound'
+import Cart from './component/Cart'
 
 ReactDOM.render(
 <BrowserRouter>
@@ -25,6 +26,7 @@ ReactDOM.render(
   <Switch>
     <Route path="/" exact component={App}/>
     <Route path="/login" component={Login} />
+    <Route path="/cart" component={Cart} />
     <Route component={Notfound}></Route> 
   </Switch>
 </BrowserRouter>, document.getElementById("root"))

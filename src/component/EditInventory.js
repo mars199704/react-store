@@ -10,11 +10,17 @@ import { toast } from 'react-toastify';
 class EditInventory extends React.Component {
 
   state = {
+    id: '',
     name: '',
     price: 0,
     tags: '',
     image: '',
     status: 'available'
+  }
+
+  componentDidMount() {
+    const { id, name, tags, image, price, status } = this.props.product
+    this.setState({ id, name, tags, image, price, status })
   }
 
   handleChange = e => {
@@ -28,17 +34,19 @@ class EditInventory extends React.Component {
   submit = e => {
     e.preventDefault();
     const product = {...this.state}
-    axios.post("products", product).then(res => {
-      toast.success('POST success!!!', {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        });
+    axios.put(`products/${this.state.id}`, product).then(res => {
+      this.props.close(res.data)
+      toast.success('POST success!!!')
+    })
+  }
+
+  onDelete = e => {
+    e.preventDefault();
+    const product = {...this.state}
+    axios.delete(`products/${this.state.id}`, product).then(res => {
+      this.props.deleteProduct(this.state.id)
       this.props.close()
+      toast.success('Delete success!!!')
     })
   }
 
@@ -94,6 +102,9 @@ class EditInventory extends React.Component {
           <div className="field is-grouped is-grouped-centered">
             <div className="control">
               <button className="button is-link">Submit</button>
+            </div>
+            <div className="control">
+              <button className="button is-danger" type="button" onClick={this.onDelete}>Delete</button>
             </div>
             <div className="control">
               <button className="button" type="button" onClick={() => {this.props.close()}}>Cancel</button>

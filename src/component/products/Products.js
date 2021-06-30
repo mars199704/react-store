@@ -22,7 +22,8 @@ class Products extends React.Component{
         id: 12
       }
     ],
-    sourceProduct: []
+    sourceProduct: [],
+    cartNumber: 0
   }
 
   componentDidMount() {
@@ -61,6 +62,7 @@ class Products extends React.Component{
   }
 
   toAdd = () => {
+    // console.log(Panel);
     Panel.open({
       component: AddInventory,
       callback: data => {
@@ -82,10 +84,33 @@ class Products extends React.Component{
     })
   }
 
+  delete = id => {
+    const _products = this.state.products.filter(p => p.id !== id)
+    const _sProducts = this.state.sourceProduct.filter(p => p.id !== id)
+    this.setState({
+      products: _products,
+      sourceProduct: _sProducts
+    })
+  }
+
+  updateCartNumber = async() => {
+    const Num = await this.initCartNumber()
+    this.setState({
+      cartNumber: Num
+    })
+  }
+
+  initCartNumber = async() => {
+    const res = await axios.get('/carts')
+    const carts = res.data || []
+    const cartNum = carts.map(cart => cart.mount).reduce((a, val) => a + val, 0)
+    return cartNum
+  }
+
   render() {
     return(
     <div>
-      <Toolbox search={this.search}/>
+      <Toolbox search={this.search} cartNumber={this.state.cartNumber}/>
       <div className="products">
         <div className="columns is-multiline is-desktop">
           <TransitionGroup component={null}>
@@ -97,7 +122,10 @@ class Products extends React.Component{
                   timeout={300} 
                   key={product.id}>
                   <div className="column is-3" key={product.id}>
-                    <Product product={product}/>
+                    <Product 
+                      product={product}
+                      delete={this.delete}
+                      updateCartNumber={this.updateCartNumber}/>
                   </div>
                   </CSSTransition>
                 )
@@ -106,7 +134,7 @@ class Products extends React.Component{
           </TransitionGroup>
         </div>
         <button className="button is-primary add-btn" 
-        onClick={this.toAdd}>add</button>
+        onClick={this.toAdd}>Panel</button>
       </div>
     </div>
     )
