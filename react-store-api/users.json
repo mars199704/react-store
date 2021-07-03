@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "nickname": "admin_nickname", 
+      "email": "admin@163.com",
+      "password": "admin",
+      "type": 1
+    }
+  ]
+}
