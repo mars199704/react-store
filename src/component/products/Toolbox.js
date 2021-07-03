@@ -24,7 +24,7 @@ class Toolbox extends React.Component {
   }
 
   goCart = () => {
-    this.props.history.push("/cart")
+    this.props.history.push("/carts")
   }
 
   render() {

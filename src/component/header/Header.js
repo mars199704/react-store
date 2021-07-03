@@ -1,21 +1,36 @@
 import React, { Fragment } from 'react'
 
+import Panel from '../Panel'
+import UserProfile from '../UserProfile'
 class Header extends React.Component{
 
+  toProfile = () => {
+    Panel.open({
+      component: UserProfile,
+      props: {
+        user: this.props.user
+      },
+      callback: data => {
+        console.log(data);
+      }
+    })
+  }
+
   renderLink() {
-    const nickname = this.props.nickname
-    if(nickname){
+
+    if(this.props.user.nickname){
+      console.log(this.props.user.nickname);
       return (
-        <span className="nickname">
+        <span className="nickname" onClick={this.toProfile}>
           <i className="far fa-user"></i>
-          {this.props.nickname}
+          {this.props.user.nickname}
         </span>
       )
     }else{
       return(
         <Fragment>
-            <a href="/">Login</a>
-            <a href="/">Register</a>
+            <a href="/auth/login">Login</a>
+            <a href="/register">Register</a>
         </Fragment>
       )
     }
